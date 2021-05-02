@@ -29,7 +29,7 @@ class ImdbDefaultSpiderSpider(scrapy.Spider):
         duration = response.xpath("normalize-space((//time)[1]/text())").get()
         rating = response.xpath("//div[@class='ratingValue']/strong/span/text()").get()
         release_date = response.xpath("normalize-space((//div[@id='titleDetails']/div/h4[contains(text(),'Release Date')]/parent::div/text())[2])").get()
-        country = response.xpath("(//div[@id='titleDetails']/div/h4[contains(text(),'Country:')]/following-sibling::a/text())").get()
+        country = response.xpath("(//div[@id='titleDetails']/div/h4[contains(text(),'Country:')]/following-sibling::a/text())").getall()
         storyline = response.xpath("normalize-space(//div[@id='titleStoryLine']/div/p/span/text())").get()
         cast = response.xpath("//div[@id='titleCast']//tr[contains(@class,'odd') or contains(@class,'even')]/td[2]/a/text()").getall()
 
