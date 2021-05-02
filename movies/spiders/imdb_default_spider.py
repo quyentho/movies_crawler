@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
-
+import logging
 
 class ImdbDefaultSpiderSpider(scrapy.Spider):
     name = 'imdb_default_spider'
@@ -32,10 +32,12 @@ class ImdbDefaultSpiderSpider(scrapy.Spider):
         release_date = response.xpath("normalize-space((//div[@id='titleDetails']/div/h4[contains(text(),'Release Date')]/parent::div/text())[2])").get()
         country = response.xpath("(//div[@id='titleDetails']/div/h4[contains(text(),'Country:')]/following-sibling::a/text())").get()
         storyline = response.xpath("normalize-space(//div[@id='titleStoryLine']/div/p/span/text())").get()
-        casts = response.xpath("normalize-space(//div[@id='titleCast']//tr[contains(@class,'odd') or contains(@class,'even')]/td[2]/a/text())").getall()
-        cast_normalize = []
-        for cast in casts:
-            cast_normalize.append(cast.strip())
+        cast = response.xpath("//div[@id='titleCast']//tr[contains(@class,'odd') or contains(@class,'even')]/td[2]/a/text()").getall()
+
+        cast_normalize=[] 
+        for cas in cast:
+            cast_normalize.append(cas.strip())
+        
         yield{
             'Title' : title,
             'Year' : year,
