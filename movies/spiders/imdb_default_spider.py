@@ -17,12 +17,11 @@ class ImdbDefaultSpiderSpider(scrapy.Spider):
     def parse_movie(self,response):
         movie_urls = response.xpath("//h3[@class='lister-item-header']/a/@href").getall()
         for page in movie_urls:
-            if page:
-                yield response.follow(url = page, callback=self.parse_item)
+            yield response.follow(url = page, callback=self.parse_item)
 
         next_page = response.xpath("(//a[@class='lister-page-next next-page'])[2]/@href").get()
         if next_page:
-            yield response.follow(url = next_page, callback=self.parse)
+            yield response.follow(url = next_page, callback=self.parse_movie)
     
     def parse_item(self, response):
         title =  response.xpath("normalize-space(//div[@class='title_wrapper']/h1/text())").get()
